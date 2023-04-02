@@ -1,0 +1,47 @@
+CREATE TABLE Student(
+roll int PRIMARY KEY auto_increment,
+name varchar(16) NOT NULL,
+gender varchar(1) NOT NULL,
+email varchar(24) NOT NULL UNIQUE,
+password varchar(16) NOT NULL
+);
+
+CREATE TABLE Admin(
+admin_id int PRIMARY KEY auto_increment,
+a_name varchar(16) NOT NULL,
+a_user varchar(24) NOT NULL UNIQUE,
+a_pass varchar(24) NOT NULL
+);
+
+CREATE TABLE Course(
+c_id int PRIMARY KEY auto_increment,
+c_name varchar(24) NOT NULL UNIQUE,
+fee int NOT NULL,
+seats int NOT NULL
+);
+
+CREATE TABLE Batch(
+bid int PRIMARY KEY,
+bname varchar(12),
+duration int,
+cid int,
+seats int NOT NULL,
+FOREIGN KEY (cid) references Course(c_id) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE student_batch(
+roll int,
+cid int,
+bid int,
+PRIMARY KEY (roll,cid),
+FOREIGN KEY (bid) references Batch(bid) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (cid) references Course(c_id) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (roll) references Student(roll) ON DELETE CASCADE ON UPDATE CASCADE
+);
+
+CREATE TABLE student_course(
+roll int,
+cid int,
+FOREIGN KEY (cid) references Course(c_id) ON DELETE CASCADE ON UPDATE CASCADE,
+FOREIGN KEY (roll) references Student(roll) ON DELETE CASCADE ON UPDATE CASCADE
+);
